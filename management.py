@@ -57,4 +57,29 @@ def sale():
         else:
             new_data.append(m)
 
-    
+    if not found:
+        print("Medicine not found")
+        return
+
+    save_file(med_file, new_data)
+
+    total = qty * price
+    sales = load_file(sales_file)
+    sales.append(mid + "," + str(qty) + "," + str(total))
+    save_file(sales_file, sales)
+
+    print("Sale complete. Total:", total)
+
+def report():
+    sales = load_file(sales_file)
+    total = 0
+    for s in sales:
+        total += float(s.split(",")[2])
+    print("Total Revenue:", total)
+
+def low_stock():
+    meds = load_file(med_file)
+    for m in meds:
+        d = m.split(",")
+        if int(d[3]) <= 5:
+            print(d[1], "Low stock:", d[3])
